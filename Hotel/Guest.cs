@@ -18,10 +18,9 @@ namespace Hotel
         public string PersonalCode { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public System.DateTime CheckIn { get; set; }
-        public System.DateTime CheckOut { get; set; }
-        public double TotaCost { get; set; }
-        public int RoomId { get; set; }
+        public Nullable<System.DateTime> CheckIn { get; set; }
+        public Nullable<System.DateTime> CheckOut { get; set; }
+        public Nullable<int> RoomId { get; set; }
     
         public virtual Room Room { get; set; }
     }

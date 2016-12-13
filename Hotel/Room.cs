@@ -18,8 +18,8 @@ namespace Hotel
         public Room()
         {
             this.Amenities = new HashSet<Amenity>();
-            this.Cleanings = new HashSet<Cleaning>();
             this.Guests = new HashSet<Guest>();
+            this.Maids = new HashSet<Maid>();
         }
     
         public int Id { get; set; }
@@ -33,8 +33,8 @@ namespace Hotel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Amenity> Amenities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cleaning> Cleanings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Guest> Guests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Maid> Maids { get; set; }
     }
 }

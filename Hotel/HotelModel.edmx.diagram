@@ -4,16 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7362cd2df49949abae1ab48c418a5275" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="HotelDbModel.Amenity" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelDbModel.Cleaning" Width="1.5" PointX="4.25" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelDbModel.Guest" Width="1.5" PointX="0.5" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelDbModel.Maid" Width="1.5" PointX="7" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelDbModel.Room" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+      <Diagram DiagramId="fb8efe1bf65c4706992bb6199a4235c1" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="HotelDbModel.Amenity" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelDbModel.Guest" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelDbModel.Maid" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelDbModel.Room" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
         <AssociationConnector Association="HotelDbModel.FK_Amenity_Room" ManuallyRouted="false" />
-        <AssociationConnector Association="HotelDbModel.FK_Cleaning_Maid" ManuallyRouted="false" />
-        <AssociationConnector Association="HotelDbModel.FK_Cleaning_Room" ManuallyRouted="false" />
         <AssociationConnector Association="HotelDbModel.FK_Guest_Room" ManuallyRouted="false" />
+        <AssociationConnector Association="HotelDbModel.Cleaning" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

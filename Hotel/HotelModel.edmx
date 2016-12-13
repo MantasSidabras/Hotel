@@ -14,13 +14,15 @@
           <Property Name="Price" Type="float" />
           <Property Name="RoomId" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\MANTAS\DOCUMENTS\VISUAL STUDIO 2015\PROJECTS\HOTEL\HOTEL\HOTELDB.MDF.dbo.Cleaning' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Cleaning">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="RoomId" />
+            <PropertyRef Name="MaidId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RoomId" Type="int" />
-          <Property Name="MaidId" Type="int" />
+          <Property Name="RoomId" Type="int" Nullable="false" />
+          <Property Name="MaidId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Guest">
           <Key>
@@ -30,10 +32,9 @@
           <Property Name="PersonalCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CheckIn" Type="datetime" Nullable="false" />
-          <Property Name="CheckOut" Type="datetime" Nullable="false" />
-          <Property Name="TotaCost" Type="float" Nullable="false" />
-          <Property Name="RoomId" Type="int" Nullable="false" />
+          <Property Name="CheckIn" Type="datetime" />
+          <Property Name="CheckOut" Type="datetime" />
+          <Property Name="RoomId" Type="int" />
         </EntityType>
         <EntityType Name="Maid">
           <Key>
@@ -69,7 +70,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Cleaning_Maid">
-          <End Role="Maid" Type="Self.Maid" Multiplicity="0..1" />
+          <End Role="Maid" Type="Self.Maid" Multiplicity="1" />
           <End Role="Cleaning" Type="Self.Cleaning" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Maid">
@@ -81,7 +82,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Cleaning_Room">
-          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="Cleaning" Type="Self.Cleaning" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Room">
@@ -93,7 +94,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Guest_Room">
-          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
           <End Role="Guest" Type="Self.Guest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Room">
@@ -106,10 +107,15 @@
         </Association>
         <EntityContainer Name="HotelDbModelStoreContainer">
           <EntitySet Name="Amenity" EntityType="Self.Amenity" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Cleaning" EntityType="Self.Cleaning" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Maid" EntityType="Self.Maid" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cleaning" EntityType="Self.Cleaning" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Cleaning].[RoomId] AS [RoomId], 
+    [Cleaning].[MaidId] AS [MaidId]
+    FROM [dbo].[Cleaning] AS [Cleaning]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Amenity_Room" Association="Self.FK_Amenity_Room">
             <End Role="Room" EntitySet="Room" />
             <End Role="Amenity" EntitySet="Amenity" />
@@ -142,16 +148,6 @@
           <Property Name="RoomId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Room" Relationship="Self.FK_Amenity_Room" FromRole="Amenity" ToRole="Room" />
         </EntityType>
-        <EntityType Name="Cleaning">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoomId" Type="Int32" />
-          <Property Name="MaidId" Type="Int32" />
-          <NavigationProperty Name="Maid" Relationship="Self.FK_Cleaning_Maid" FromRole="Cleaning" ToRole="Maid" />
-          <NavigationProperty Name="Room" Relationship="Self.FK_Cleaning_Room" FromRole="Cleaning" ToRole="Room" />
-        </EntityType>
         <EntityType Name="Guest">
           <Key>
             <PropertyRef Name="Id" />
@@ -160,10 +156,9 @@
           <Property Name="PersonalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CheckIn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TotaCost" Type="Double" Nullable="false" />
-          <Property Name="RoomId" Type="Int32" Nullable="false" />
+          <Property Name="CheckIn" Type="DateTime" Precision="3" />
+          <Property Name="CheckOut" Type="DateTime" Precision="3" />
+          <Property Name="RoomId" Type="Int32" />
           <NavigationProperty Name="Room" Relationship="Self.FK_Guest_Room" FromRole="Guest" ToRole="Room" />
         </EntityType>
         <EntityType Name="Maid">
@@ -174,7 +169,7 @@
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PersonalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Cleanings" Relationship="Self.FK_Cleaning_Maid" FromRole="Maid" ToRole="Cleaning" />
+          <NavigationProperty Name="Rooms" Relationship="Self.Cleaning" FromRole="Maid" ToRole="Room" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
@@ -188,8 +183,8 @@
           <Property Name="Taken_until" Type="DateTime" Precision="3" />
           <Property Name="Price_for_night" Type="Double" Nullable="false" />
           <NavigationProperty Name="Amenities" Relationship="Self.FK_Amenity_Room" FromRole="Room" ToRole="Amenity" />
-          <NavigationProperty Name="Cleanings" Relationship="Self.FK_Cleaning_Room" FromRole="Room" ToRole="Cleaning" />
           <NavigationProperty Name="Guests" Relationship="Self.FK_Guest_Room" FromRole="Room" ToRole="Guest" />
+          <NavigationProperty Name="Maids" Relationship="Self.Cleaning" FromRole="Room" ToRole="Maid" />
         </EntityType>
         <Association Name="FK_Amenity_Room">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
@@ -203,32 +198,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Cleaning_Maid">
-          <End Role="Maid" Type="Self.Maid" Multiplicity="0..1" />
-          <End Role="Cleaning" Type="Self.Cleaning" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Maid">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Cleaning">
-              <PropertyRef Name="MaidId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Cleaning_Room">
-          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
-          <End Role="Cleaning" Type="Self.Cleaning" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Room">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Cleaning">
-              <PropertyRef Name="RoomId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Guest_Room">
-          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
           <End Role="Guest" Type="Self.Guest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Room">
@@ -239,9 +210,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Cleaning">
+          <End Role="Maid" Type="Self.Maid" Multiplicity="*" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+        </Association>
         <EntityContainer Name="HotelDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Amenities" EntityType="Self.Amenity" />
-          <EntitySet Name="Cleanings" EntityType="Self.Cleaning" />
           <EntitySet Name="Guests" EntityType="Self.Guest" />
           <EntitySet Name="Maids" EntityType="Self.Maid" />
           <EntitySet Name="Rooms" EntityType="Self.Room" />
@@ -249,17 +223,13 @@
             <End Role="Room" EntitySet="Rooms" />
             <End Role="Amenity" EntitySet="Amenities" />
           </AssociationSet>
-          <AssociationSet Name="FK_Cleaning_Maid" Association="Self.FK_Cleaning_Maid">
-            <End Role="Maid" EntitySet="Maids" />
-            <End Role="Cleaning" EntitySet="Cleanings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Cleaning_Room" Association="Self.FK_Cleaning_Room">
-            <End Role="Room" EntitySet="Rooms" />
-            <End Role="Cleaning" EntitySet="Cleanings" />
-          </AssociationSet>
           <AssociationSet Name="FK_Guest_Room" Association="Self.FK_Guest_Room">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="Guest" EntitySet="Guests" />
+          </AssociationSet>
+          <AssociationSet Name="Cleaning" Association="Self.Cleaning">
+            <End Role="Maid" EntitySet="Maids" />
+            <End Role="Room" EntitySet="Rooms" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -278,15 +248,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Cleanings">
-            <EntityTypeMapping TypeName="HotelDbModel.Cleaning">
-              <MappingFragment StoreEntitySet="Cleaning">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
-                <ScalarProperty Name="MaidId" ColumnName="MaidId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Guests">
             <EntityTypeMapping TypeName="HotelDbModel.Guest">
               <MappingFragment StoreEntitySet="Guest">
@@ -296,7 +257,6 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
                 <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
-                <ScalarProperty Name="TotaCost" ColumnName="TotaCost" />
                 <ScalarProperty Name="RoomId" ColumnName="RoomId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -324,6 +284,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="Cleaning" TypeName="HotelDbModel.Cleaning" StoreEntitySet="Cleaning">
+            <EndProperty Name="Maid">
+              <ScalarProperty Name="Id" ColumnName="MaidId" />
+            </EndProperty>
+            <EndProperty Name="Room">
+              <ScalarProperty Name="Id" ColumnName="RoomId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

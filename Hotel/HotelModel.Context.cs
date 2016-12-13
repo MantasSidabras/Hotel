@@ -26,7 +26,6 @@ namespace Hotel
         }
     
         public virtual DbSet<Amenity> Amenities { get; set; }
-        public virtual DbSet<Cleaning> Cleanings { get; set; }
         public virtual DbSet<Guest> Guests { get; set; }
         public virtual DbSet<Maid> Maids { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }

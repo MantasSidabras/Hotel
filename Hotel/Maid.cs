@@ -17,7 +17,7 @@ namespace Hotel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Maid()
         {
-            this.Cleanings = new HashSet<Cleaning>();
+            this.Rooms = new HashSet<Room>();
         }
     
         public int Id { get; set; }
@@ -26,6 +26,6 @@ namespace Hotel
         public string PersonalCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cleaning> Cleanings { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 }
