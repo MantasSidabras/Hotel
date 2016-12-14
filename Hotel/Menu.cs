@@ -39,7 +39,11 @@ namespace Hotel
             Console.WriteLine("6. Cancel reservation");
             Console.WriteLine("8. Display all rooms");
             Console.WriteLine("9. View all guests");
-            Console.WriteLine("11. EXIT");
+            Console.WriteLine("10. Change room price");
+            Console.WriteLine("11. Most used rooms");
+            Console.WriteLine("12. Search guest");
+            Console.WriteLine("13. Most expensive amenities");
+            Console.WriteLine("22. Exit");
         }
 
         public void DisplayAmenitiesOptions()
@@ -105,6 +109,27 @@ namespace Hotel
             foreach (var guest in _context.Guests)
             {
                 Console.WriteLine($"{guest.FirstName} {guest.LastName} ");
+            }
+        }
+
+        public void DisplayMostUsedRooms()
+        {
+            var popularRooms = _context.Rooms.ToList().Skip(0).Take(3).OrderByDescending(x => x.TimesUsed) ;
+            Console.WriteLine("Most popular rooms:");
+            foreach (Room r in popularRooms)
+            {
+                Console.WriteLine(r.Nr + " Times taken " + r.TimesUsed);
+            }
+
+        }
+
+        public void DisplayMostExpensiveAmenities()
+        {
+            Console.WriteLine("Most expensive amenities");
+            var amenities = _context.Amenities.ToList().OrderByDescending(x => x.Price).Skip(0).Take(10);
+            foreach(Amenity a in amenities)
+            {
+                Console.WriteLine(a.Name + " price: " + a.Price + " room: " + _context.Rooms.Where(x => x.Id == a.RoomId).FirstOrDefault().Nr);
             }
         }
     }

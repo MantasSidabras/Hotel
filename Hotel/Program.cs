@@ -127,11 +127,14 @@ namespace Hotel
                         }
                         break;
                     case 6:
-
+                        Console.WriteLine("Select room number to free up");
+                        int roomNum = int.Parse(Console.ReadLine());
+                        reservation.RemoveGuests(roomNum);
                         break;
                     case 7:
                         break;
                     default:
+                        break;
                     case 8:
                         Console.Clear();
                         menu.DisplayAllRooms();
@@ -140,10 +143,34 @@ namespace Hotel
                         Console.Clear();
                         menu.ViewAllGuests();
                         break;
+                    case 10:
+                        Console.WriteLine("Select room nr to change price");
+                        int rNr = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter new price");
+                        double newPrice = double.Parse(Console.ReadLine());
+                        reservation.UpdateRoom(rNr, newPrice);
+                        break;
+                    case 11:
+                        menu.DisplayMostUsedRooms();
 
+                        break;
+                    case 12:
+                        Console.WriteLine("Enter guests first or second name");
+                        var searchKey = Console.ReadLine();
+                        Guest guestFound = reservation.SearchGuest(searchKey);
+                        if (guestFound != null)
+                        {
+                            Console.WriteLine($"Guest {guestFound.FirstName} {guestFound.LastName} was found in {context.Rooms.Where(x => x.Id == guestFound.RoomId).FirstOrDefault().Nr} room");
+                        }
+                        else
+                            Console.WriteLine("Guest not found");
+                        break;
+                    case 13:
+                        menu.DisplayMostExpensiveAmenities();
+                        break;
                 }
 
-            } while (input != 11);
+            } while (input != 22);
 
         }
 

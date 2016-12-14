@@ -31,6 +31,7 @@ namespace Hotel
                     room.Taken_from = start;
                     room.Taken_until = end;
                 }
+                room.TimesUsed += 1;
                 _context.SaveChanges();
                 return true;
             }
@@ -60,6 +61,45 @@ namespace Hotel
                                   select r).ToList();
 
             return availableRooms;
+        }
+
+        public void RemoveGuests(int nr)
+        {
+            
+            var room = (from r in _context.Rooms
+                      where r.Nr == nr
+                      select r).FirstOrDefault();
+
+            room.Taken_from = null;
+            room.Taken_until = null;
+
+            foreach (Guest g in room.Guests.ToList())
+            {
+                _context.Guests.Remove(g);
+            }
+            _context.SaveChanges();
+        }
+    
+        public void UpdateRoom(int nr, double price)
+        {
+            var room = (from r in _context.Rooms
+                        where r.Nr == nr
+                        select r).FirstOrDefault();
+
+            room.Price_for_night = price;
+            _context.SaveChanges();
+        }
+
+        public Guest SearchGuest(string searchKey)
+        {
+            foreach(Guest g in _context.Guests)
+            {
+                if(g.FirstName.Contains(searchKey) || g.LastName.Contains(searchKey))
+                {
+                    return g;
+                }
+            }
+            return null;
         }
     }
 }

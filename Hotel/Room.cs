@@ -29,6 +29,7 @@ namespace Hotel
         public Nullable<System.DateTime> Taken_from { get; set; }
         public Nullable<System.DateTime> Taken_until { get; set; }
         public double Price_for_night { get; set; }
+        public int TimesUsed { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Amenity> Amenities { get; set; }

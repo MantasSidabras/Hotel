@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HotelDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HotelDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Amenity">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Price" Type="float" />
           <Property Name="RoomId" Type="int" Nullable="false" />
@@ -56,6 +56,7 @@ warning 6002: The table/view 'C:\USERS\MANTAS\DOCUMENTS\VISUAL STUDIO 2015\PROJE
           <Property Name="Taken from" Type="datetime" />
           <Property Name="Taken until" Type="datetime" />
           <Property Name="Price for night" Type="float" Nullable="false" />
+          <Property Name="TimesUsed" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Amenity_Room">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
@@ -133,8 +134,7 @@ warning 6002: The table/view 'C:\USERS\MANTAS\DOCUMENTS\VISUAL STUDIO 2015\PROJE
             <End Role="Guest" EntitySet="Guest" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HotelDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -185,6 +185,7 @@ warning 6002: The table/view 'C:\USERS\MANTAS\DOCUMENTS\VISUAL STUDIO 2015\PROJE
           <NavigationProperty Name="Amenities" Relationship="Self.FK_Amenity_Room" FromRole="Room" ToRole="Amenity" />
           <NavigationProperty Name="Guests" Relationship="Self.FK_Guest_Room" FromRole="Room" ToRole="Guest" />
           <NavigationProperty Name="Maids" Relationship="Self.Cleaning" FromRole="Room" ToRole="Maid" />
+          <Property Name="TimesUsed" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_Amenity_Room">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
@@ -274,6 +275,7 @@ warning 6002: The table/view 'C:\USERS\MANTAS\DOCUMENTS\VISUAL STUDIO 2015\PROJE
           <EntitySetMapping Name="Rooms">
             <EntityTypeMapping TypeName="HotelDbModel.Room">
               <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="TimesUsed" ColumnName="TimesUsed" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Nr" ColumnName="Nr" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
