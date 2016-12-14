@@ -114,7 +114,7 @@ namespace Hotel
 
         public void DisplayMostUsedRooms()
         {
-            var popularRooms = _context.Rooms.ToList().Skip(0).Take(3).OrderByDescending(x => x.TimesUsed) ;
+            var popularRooms = _context.Rooms.ToList().OrderByDescending(x => x.TimesUsed).Skip(0).Take(3);
             Console.WriteLine("Most popular rooms:");
             foreach (Room r in popularRooms)
             {
