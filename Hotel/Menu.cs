@@ -33,19 +33,46 @@ namespace Hotel
         {
             Console.WriteLine("1. Choose room for reservation");
             Console.WriteLine("2. Add guest");
-            Console.WriteLine("3. ");
+            Console.WriteLine("3. Manage amenities");
             Console.WriteLine("4. Select Date");
             Console.WriteLine("5. Confirm reservation");
+            Console.WriteLine("6. Cancel reservation");
             Console.WriteLine("8. Display all rooms");
+            Console.WriteLine("9. View all guests");
             Console.WriteLine("11. EXIT");
         }
 
-        public void DisplayCurrentSetup(Room room)
+        public void DisplayAmenitiesOptions()
         {
-            if(room.Nr != 0)
+            Console.WriteLine("1. Add amenity");
+            Console.WriteLine("2. Remove amenity");
+            Console.WriteLine("4. Update amenity");
+        }
+
+        public void DisplayCurrentSetup(Room room, List<Person> guests, DateTime start, DateTime end)
+        {
+            Console.WriteLine("-------------------------------------------------");
+            if(start != DateTime.MinValue && end != DateTime.MinValue)
+            {
+                Console.WriteLine($"from {start} to {end}");
+            }
+            if (room.Nr != 0)
             {
                 Console.WriteLine("Currently selected room is " + room.Nr);
+                double cost = room.Price_for_night * guests.Count + room.Amenities.Sum(x => x.Price).Value;
+
+                Console.WriteLine("Current price: " + cost);
             }
+            if(guests.Count != 0)
+            {
+                Console.WriteLine("Guests: ");
+            }
+            foreach(var guest in guests)
+            {
+                Console.WriteLine($"{guest.FirstName} {guest.LastName} ");
+            }
+
+            Console.WriteLine("-------------------------------------------------");
         }
 
         public void DisplayAllRooms()
@@ -65,6 +92,15 @@ namespace Hotel
                 }
             }
             Console.WriteLine("-------------------------------------------------");
+        }
+
+        internal void ViewAllGuests()
+        {
+            Console.WriteLine("List of all guests: ");
+            foreach (var guest in _context.Guests)
+            {
+                Console.WriteLine($"{guest.FirstName} {guest.LastName} ");
+            }
         }
     }
 }

@@ -16,24 +16,22 @@ namespace Hotel
 
         public bool ReserveRoom(List<Person> guests, Room room, DateTime start, DateTime end)
         {
-            
-                if (GetAvailableRooms(start, end).Contains(room))
+
+            if (GetAvailableRooms(start, end).Contains(room))
+            {
+
+                foreach (var guest in guests)
                 {
-                using (var context = new HotelDbEntities())
-                {
-                    foreach (var guest in guests)
+                    room.Guests.Add(new Guest()
                     {
-                        room.Guests.Add(new Guest()
-                        {
-                            FirstName = guest.FirstName,
-                            LastName = guest.LastName,
-                            PersonalCode = guest.PersonalCode
-                        });
-                        room.Taken_from = start;
-                        room.Taken_until = end;
-                    }
-                    context.SaveChanges();
+                        FirstName = guest.FirstName,
+                        LastName = guest.LastName,
+                        PersonalCode = guest.PersonalCode
+                    });
+                    room.Taken_from = start;
+                    room.Taken_until = end;
                 }
+                _context.SaveChanges();
                 return true;
             }
             return false;
@@ -54,12 +52,12 @@ namespace Hotel
         public List<Room> GetAvailableRooms(DateTime fromDate, DateTime ToDate)
         {
             var availableRooms = (from r in _context.Rooms
-                                 where r.Guests.Count == 0
-                                 && r.State == "clean"
-                                 && ((r.Taken_from == null && r.Taken_until == null)
-                                 || !(fromDate <= r.Taken_until && r.Taken_from >= ToDate))  // No overlapping dates
+                                  where r.Guests.Count == 0
+                                  && r.State == "clean"
+                                  //&& ((r.Taken_from == null && r.Taken_until == null)
+                                  //|| !(fromDate <= r.Taken_until && r.Taken_from >= ToDate))  // No overlapping dates
 
-                                 select r).ToList();
+                                  select r).ToList();
 
             return availableRooms;
         }
