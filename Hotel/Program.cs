@@ -114,7 +114,12 @@ namespace Hotel
                         Console.Clear();
                         if (CheckInDate != DateTime.MinValue && guests.Capacity != 0)
                         {
-                            var reservationConfirmed = reservation.ReserveRoom(guests, context.Rooms.Where(x => x.Nr == roomNumber).Select(x => x).FirstOrDefault(), CheckInDate, CheckOutDate);
+                            var reservationConfirmed = reservation.ReserveRoom(guests,  room, CheckInDate, CheckOutDate);
+                            if (reservationConfirmed)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("reservation successful");
+                            }
                         }
                         else
                         {

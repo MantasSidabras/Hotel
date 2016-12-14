@@ -84,7 +84,12 @@ namespace Hotel
                 Console.Write($"number: {room.Nr} size: {room.Size} ");
                 if(room.Taken_from != null)
                 {
-                    Console.Write($"taken from: {room.Taken_from} taken until: {room.Taken_until}\n");
+                    Console.Write($"taken from: {room.Taken_from} taken until: {room.Taken_until} ");
+                    foreach(var g in room.Guests)
+                    {
+                        Console.Write(g.FirstName);
+                    }
+                    Console.Write("\n");
                 }
                 else
                 {
